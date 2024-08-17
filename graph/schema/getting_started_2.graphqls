@@ -1,0 +1,27 @@
+
+
+type TodoSecond {
+  id: ID!
+  text: String!
+  done: Boolean!
+  user: UserSecond!
+  status: String!
+}
+
+type UserSecond {
+  id: ID!
+  name: String!
+}
+
+input NewTodoSecond {
+  text: String!
+  userId: String!
+}
+
+extend type Mutation {
+  createTodoSecond(input: NewTodoSecond!): TodoSecond!
+}
+
+extend type Query {
+  todosSecond: [TodoSecond!]!
+}
