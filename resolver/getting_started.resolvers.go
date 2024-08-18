@@ -8,18 +8,18 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/private-project-pp/graphql-api-service/graph/model"
 	"github.com/private-project-pp/graphql-api-service/interfaces/graph_server"
+	"github.com/private-project-pp/graphql-api-service/model/graph_model"
 )
 
 // CreateTodo is the resolver for the createTodo field.
-func (r *mutationResolver) CreateTodo(ctx context.Context, input model.NewTodo) (*model.Todo, error) {
+func (r *mutationResolver) CreateTodo(ctx context.Context, input graph_model.NewTodo) (*graph_model.Todo, error) {
 	panic(fmt.Errorf("not implemented: CreateTodo - createTodo"))
 }
 
 // Todos is the resolver for the todos field.
-func (r *queryResolver) Todos(ctx context.Context) (out []*model.Todo, err error) {
-	out = append(out, &model.Todo{
+func (r *queryResolver) Todos(ctx context.Context) (out []*graph_model.Todo, err error) {
+	out = append(out, &graph_model.Todo{
 		ID:     "1",
 		Text:   "Ini teks",
 		Status: "SUCCESS",

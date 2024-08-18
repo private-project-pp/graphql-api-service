@@ -8,10 +8,10 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/private-project-pp/graphql-api-service/graph/model"
+	"github.com/private-project-pp/graphql-api-service/model/graph_model"
 )
 
 // TodosThird is the resolver for the todosThird field.
-func (r *queryResolver) TodosThird(ctx context.Context) ([]*model.Todo, error) {
+func (r *queryResolver) TodosThird(ctx context.Context) ([]*graph_model.Todo, error) {
 	panic(fmt.Errorf("not implemented: TodosThird - todosThird"))
 }

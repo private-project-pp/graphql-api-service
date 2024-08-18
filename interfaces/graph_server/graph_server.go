@@ -13,7 +13,7 @@ import (
 
 	"github.com/99designs/gqlgen/graphql"
 	"github.com/99designs/gqlgen/graphql/introspection"
-	"github.com/private-project-pp/graphql-api-service/graph/model"
+	"github.com/private-project-pp/graphql-api-service/model/graph_model"
 	gqlparser "github.com/vektah/gqlparser/v2"
 	"github.com/vektah/gqlparser/v2/ast"
 )
@@ -47,8 +47,8 @@ type DirectiveRoot struct {
 
 type ComplexityRoot struct {
 	Mutation struct {
-		CreateTodo       func(childComplexity int, input model.NewTodo) int
-		CreateTodoSecond func(childComplexity int, input model.NewTodoSecond) int
+		CreateTodo       func(childComplexity int, input graph_model.NewTodo) int
+		CreateTodoSecond func(childComplexity int, input graph_model.NewTodoSecond) int
 	}
 
 	Query struct {
@@ -85,13 +85,13 @@ type ComplexityRoot struct {
 }
 
 type MutationResolver interface {
-	CreateTodo(ctx context.Context, input model.NewTodo) (*model.Todo, error)
-	CreateTodoSecond(ctx context.Context, input model.NewTodoSecond) (*model.TodoSecond, error)
+	CreateTodo(ctx context.Context, input graph_model.NewTodo) (*graph_model.Todo, error)
+	CreateTodoSecond(ctx context.Context, input graph_model.NewTodoSecond) (*graph_model.TodoSecond, error)
 }
 type QueryResolver interface {
-	Todos(ctx context.Context) ([]*model.Todo, error)
-	TodosSecond(ctx context.Context) ([]*model.TodoSecond, error)
-	TodosThird(ctx context.Context) ([]*model.Todo, error)
+	Todos(ctx context.Context) ([]*graph_model.Todo, error)
+	TodosSecond(ctx context.Context) ([]*graph_model.TodoSecond, error)
+	TodosThird(ctx context.Context) ([]*graph_model.Todo, error)
 }
 
 type executableSchema struct {
@@ -123,7 +123,7 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			return 0, false
 		}
 
-		return e.complexity.Mutation.CreateTodo(childComplexity, args["input"].(model.NewTodo)), true
+		return e.complexity.Mutation.CreateTodo(childComplexity, args["input"].(graph_model.NewTodo)), true
 
 	case "Mutation.createTodoSecond":
 		if e.complexity.Mutation.CreateTodoSecond == nil {
@@ -135,7 +135,7 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			return 0, false
 		}
 
-		return e.complexity.Mutation.CreateTodoSecond(childComplexity, args["input"].(model.NewTodoSecond)), true
+		return e.complexity.Mutation.CreateTodoSecond(childComplexity, args["input"].(graph_model.NewTodoSecond)), true
 
 	case "Query.todos":
 		if e.complexity.Query.Todos == nil {
@@ -363,7 +363,7 @@ func (ec *executionContext) introspectType(name string) (*introspection.Type, er
 }
 
 var sources = []*ast.Source{
-	{Name: "../../graph/schema/getting_started.graphqls", Input: `
+	{Name: "../../graph/getting_started.graphqls", Input: `
 
 type Todo {
   id: ID!
@@ -391,7 +391,7 @@ extend type Query {
   todos: [Todo!]!
 }
 `, BuiltIn: false},
-	{Name: "../../graph/schema/getting_started_2.graphqls", Input: `
+	{Name: "../../graph/getting_started_2.graphqls", Input: `
 
 type TodoSecond {
   id: ID!
@@ -419,7 +419,7 @@ extend type Query {
   todosSecond: [TodoSecond!]!
 }
 `, BuiltIn: false},
-	{Name: "../../graph/schema/getting_started_3.graphqls", Input: `extend type Query{
+	{Name: "../../graph/getting_started_3.graphqls", Input: `extend type Query{
     todosThird: [Todo!]!
 }`, BuiltIn: false},
 }
@@ -432,10 +432,10 @@ var parsedSchema = gqlparser.MustLoadSchema(sources...)
 func (ec *executionContext) field_Mutation_createTodoSecond_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
 	var err error
 	args := map[string]interface{}{}
-	var arg0 model.NewTodoSecond
+	var arg0 graph_model.NewTodoSecond
 	if tmp, ok := rawArgs["input"]; ok {
 		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
-		arg0, err = ec.unmarshalNNewTodoSecond2githubᚗcomᚋprivateᚑprojectᚑppᚋgraphqlᚑapiᚑserviceᚋgraphᚋmodelᚐNewTodoSecond(ctx, tmp)
+		arg0, err = ec.unmarshalNNewTodoSecond2githubᚗcomᚋprivateᚑprojectᚑppᚋgraphqlᚑapiᚑserviceᚋmodelᚋgraph_modelᚐNewTodoSecond(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
@@ -447,10 +447,10 @@ func (ec *executionContext) field_Mutation_createTodoSecond_args(ctx context.Con
 func (ec *executionContext) field_Mutation_createTodo_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
 	var err error
 	args := map[string]interface{}{}
-	var arg0 model.NewTodo
+	var arg0 graph_model.NewTodo
 	if tmp, ok := rawArgs["input"]; ok {
 		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
-		arg0, err = ec.unmarshalNNewTodo2githubᚗcomᚋprivateᚑprojectᚑppᚋgraphqlᚑapiᚑserviceᚋgraphᚋmodelᚐNewTodo(ctx, tmp)
+		arg0, err = ec.unmarshalNNewTodo2githubᚗcomᚋprivateᚑprojectᚑppᚋgraphqlᚑapiᚑserviceᚋmodelᚋgraph_modelᚐNewTodo(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
@@ -526,7 +526,7 @@ func (ec *executionContext) _Mutation_createTodo(ctx context.Context, field grap
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().CreateTodo(rctx, fc.Args["input"].(model.NewTodo))
+		return ec.resolvers.Mutation().CreateTodo(rctx, fc.Args["input"].(graph_model.NewTodo))
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -538,9 +538,9 @@ func (ec *executionContext) _Mutation_createTodo(ctx context.Context, field grap
 		}
 		return graphql.Null
 	}
-	res := resTmp.(*model.Todo)
+	res := resTmp.(*graph_model.Todo)
 	fc.Result = res
-	return ec.marshalNTodo2ᚖgithubᚗcomᚋprivateᚑprojectᚑppᚋgraphqlᚑapiᚑserviceᚋgraphᚋmodelᚐTodo(ctx, field.Selections, res)
+	return ec.marshalNTodo2ᚖgithubᚗcomᚋprivateᚑprojectᚑppᚋgraphqlᚑapiᚑserviceᚋmodelᚋgraph_modelᚐTodo(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Mutation_createTodo(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -593,7 +593,7 @@ func (ec *executionContext) _Mutation_createTodoSecond(ctx context.Context, fiel
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().CreateTodoSecond(rctx, fc.Args["input"].(model.NewTodoSecond))
+		return ec.resolvers.Mutation().CreateTodoSecond(rctx, fc.Args["input"].(graph_model.NewTodoSecond))
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -605,9 +605,9 @@ func (ec *executionContext) _Mutation_createTodoSecond(ctx context.Context, fiel
 		}
 		return graphql.Null
 	}
-	res := resTmp.(*model.TodoSecond)
+	res := resTmp.(*graph_model.TodoSecond)
 	fc.Result = res
-	return ec.marshalNTodoSecond2ᚖgithubᚗcomᚋprivateᚑprojectᚑppᚋgraphqlᚑapiᚑserviceᚋgraphᚋmodelᚐTodoSecond(ctx, field.Selections, res)
+	return ec.marshalNTodoSecond2ᚖgithubᚗcomᚋprivateᚑprojectᚑppᚋgraphqlᚑapiᚑserviceᚋmodelᚋgraph_modelᚐTodoSecond(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Mutation_createTodoSecond(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -672,9 +672,9 @@ func (ec *executionContext) _Query_todos(ctx context.Context, field graphql.Coll
 		}
 		return graphql.Null
 	}
-	res := resTmp.([]*model.Todo)
+	res := resTmp.([]*graph_model.Todo)
 	fc.Result = res
-	return ec.marshalNTodo2ᚕᚖgithubᚗcomᚋprivateᚑprojectᚑppᚋgraphqlᚑapiᚑserviceᚋgraphᚋmodelᚐTodoᚄ(ctx, field.Selections, res)
+	return ec.marshalNTodo2ᚕᚖgithubᚗcomᚋprivateᚑprojectᚑppᚋgraphqlᚑapiᚑserviceᚋmodelᚋgraph_modelᚐTodoᚄ(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Query_todos(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -728,9 +728,9 @@ func (ec *executionContext) _Query_todosSecond(ctx context.Context, field graphq
 		}
 		return graphql.Null
 	}
-	res := resTmp.([]*model.TodoSecond)
+	res := resTmp.([]*graph_model.TodoSecond)
 	fc.Result = res
-	return ec.marshalNTodoSecond2ᚕᚖgithubᚗcomᚋprivateᚑprojectᚑppᚋgraphqlᚑapiᚑserviceᚋgraphᚋmodelᚐTodoSecondᚄ(ctx, field.Selections, res)
+	return ec.marshalNTodoSecond2ᚕᚖgithubᚗcomᚋprivateᚑprojectᚑppᚋgraphqlᚑapiᚑserviceᚋmodelᚋgraph_modelᚐTodoSecondᚄ(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Query_todosSecond(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -784,9 +784,9 @@ func (ec *executionContext) _Query_todosThird(ctx context.Context, field graphql
 		}
 		return graphql.Null
 	}
-	res := resTmp.([]*model.Todo)
+	res := resTmp.([]*graph_model.Todo)
 	fc.Result = res
-	return ec.marshalNTodo2ᚕᚖgithubᚗcomᚋprivateᚑprojectᚑppᚋgraphqlᚑapiᚑserviceᚋgraphᚋmodelᚐTodoᚄ(ctx, field.Selections, res)
+	return ec.marshalNTodo2ᚕᚖgithubᚗcomᚋprivateᚑprojectᚑppᚋgraphqlᚑapiᚑserviceᚋmodelᚋgraph_modelᚐTodoᚄ(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Query_todosThird(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -943,7 +943,7 @@ func (ec *executionContext) fieldContext_Query___schema(_ context.Context, field
 	return fc, nil
 }
 
-func (ec *executionContext) _Todo_id(ctx context.Context, field graphql.CollectedField, obj *model.Todo) (ret graphql.Marshaler) {
+func (ec *executionContext) _Todo_id(ctx context.Context, field graphql.CollectedField, obj *graph_model.Todo) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Todo_id(ctx, field)
 	if err != nil {
 		return graphql.Null
@@ -987,7 +987,7 @@ func (ec *executionContext) fieldContext_Todo_id(_ context.Context, field graphq
 	return fc, nil
 }
 
-func (ec *executionContext) _Todo_text(ctx context.Context, field graphql.CollectedField, obj *model.Todo) (ret graphql.Marshaler) {
+func (ec *executionContext) _Todo_text(ctx context.Context, field graphql.CollectedField, obj *graph_model.Todo) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Todo_text(ctx, field)
 	if err != nil {
 		return graphql.Null
@@ -1031,7 +1031,7 @@ func (ec *executionContext) fieldContext_Todo_text(_ context.Context, field grap
 	return fc, nil
 }
 
-func (ec *executionContext) _Todo_done(ctx context.Context, field graphql.CollectedField, obj *model.Todo) (ret graphql.Marshaler) {
+func (ec *executionContext) _Todo_done(ctx context.Context, field graphql.CollectedField, obj *graph_model.Todo) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Todo_done(ctx, field)
 	if err != nil {
 		return graphql.Null
@@ -1075,7 +1075,7 @@ func (ec *executionContext) fieldContext_Todo_done(_ context.Context, field grap
 	return fc, nil
 }
 
-func (ec *executionContext) _Todo_user(ctx context.Context, field graphql.CollectedField, obj *model.Todo) (ret graphql.Marshaler) {
+func (ec *executionContext) _Todo_user(ctx context.Context, field graphql.CollectedField, obj *graph_model.Todo) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Todo_user(ctx, field)
 	if err != nil {
 		return graphql.Null
@@ -1101,9 +1101,9 @@ func (ec *executionContext) _Todo_user(ctx context.Context, field graphql.Collec
 		}
 		return graphql.Null
 	}
-	res := resTmp.(model.User)
+	res := resTmp.(graph_model.User)
 	fc.Result = res
-	return ec.marshalNUser2githubᚗcomᚋprivateᚑprojectᚑppᚋgraphqlᚑapiᚑserviceᚋgraphᚋmodelᚐUser(ctx, field.Selections, res)
+	return ec.marshalNUser2githubᚗcomᚋprivateᚑprojectᚑppᚋgraphqlᚑapiᚑserviceᚋmodelᚋgraph_modelᚐUser(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Todo_user(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -1125,7 +1125,7 @@ func (ec *executionContext) fieldContext_Todo_user(_ context.Context, field grap
 	return fc, nil
 }
 
-func (ec *executionContext) _Todo_status(ctx context.Context, field graphql.CollectedField, obj *model.Todo) (ret graphql.Marshaler) {
+func (ec *executionContext) _Todo_status(ctx context.Context, field graphql.CollectedField, obj *graph_model.Todo) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Todo_status(ctx, field)
 	if err != nil {
 		return graphql.Null
@@ -1169,7 +1169,7 @@ func (ec *executionContext) fieldContext_Todo_status(_ context.Context, field gr
 	return fc, nil
 }
 
-func (ec *executionContext) _TodoSecond_id(ctx context.Context, field graphql.CollectedField, obj *model.TodoSecond) (ret graphql.Marshaler) {
+func (ec *executionContext) _TodoSecond_id(ctx context.Context, field graphql.CollectedField, obj *graph_model.TodoSecond) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_TodoSecond_id(ctx, field)
 	if err != nil {
 		return graphql.Null
@@ -1213,7 +1213,7 @@ func (ec *executionContext) fieldContext_TodoSecond_id(_ context.Context, field 
 	return fc, nil
 }
 
-func (ec *executionContext) _TodoSecond_text(ctx context.Context, field graphql.CollectedField, obj *model.TodoSecond) (ret graphql.Marshaler) {
+func (ec *executionContext) _TodoSecond_text(ctx context.Context, field graphql.CollectedField, obj *graph_model.TodoSecond) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_TodoSecond_text(ctx, field)
 	if err != nil {
 		return graphql.Null
@@ -1257,7 +1257,7 @@ func (ec *executionContext) fieldContext_TodoSecond_text(_ context.Context, fiel
 	return fc, nil
 }
 
-func (ec *executionContext) _TodoSecond_done(ctx context.Context, field graphql.CollectedField, obj *model.TodoSecond) (ret graphql.Marshaler) {
+func (ec *executionContext) _TodoSecond_done(ctx context.Context, field graphql.CollectedField, obj *graph_model.TodoSecond) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_TodoSecond_done(ctx, field)
 	if err != nil {
 		return graphql.Null
@@ -1301,7 +1301,7 @@ func (ec *executionContext) fieldContext_TodoSecond_done(_ context.Context, fiel
 	return fc, nil
 }
 
-func (ec *executionContext) _TodoSecond_user(ctx context.Context, field graphql.CollectedField, obj *model.TodoSecond) (ret graphql.Marshaler) {
+func (ec *executionContext) _TodoSecond_user(ctx context.Context, field graphql.CollectedField, obj *graph_model.TodoSecond) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_TodoSecond_user(ctx, field)
 	if err != nil {
 		return graphql.Null
@@ -1327,9 +1327,9 @@ func (ec *executionContext) _TodoSecond_user(ctx context.Context, field graphql.
 		}
 		return graphql.Null
 	}
-	res := resTmp.(model.UserSecond)
+	res := resTmp.(graph_model.UserSecond)
 	fc.Result = res
-	return ec.marshalNUserSecond2githubᚗcomᚋprivateᚑprojectᚑppᚋgraphqlᚑapiᚑserviceᚋgraphᚋmodelᚐUserSecond(ctx, field.Selections, res)
+	return ec.marshalNUserSecond2githubᚗcomᚋprivateᚑprojectᚑppᚋgraphqlᚑapiᚑserviceᚋmodelᚋgraph_modelᚐUserSecond(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_TodoSecond_user(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -1351,7 +1351,7 @@ func (ec *executionContext) fieldContext_TodoSecond_user(_ context.Context, fiel
 	return fc, nil
 }
 
-func (ec *executionContext) _TodoSecond_status(ctx context.Context, field graphql.CollectedField, obj *model.TodoSecond) (ret graphql.Marshaler) {
+func (ec *executionContext) _TodoSecond_status(ctx context.Context, field graphql.CollectedField, obj *graph_model.TodoSecond) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_TodoSecond_status(ctx, field)
 	if err != nil {
 		return graphql.Null
@@ -1395,7 +1395,7 @@ func (ec *executionContext) fieldContext_TodoSecond_status(_ context.Context, fi
 	return fc, nil
 }
 
-func (ec *executionContext) _User_id(ctx context.Context, field graphql.CollectedField, obj *model.User) (ret graphql.Marshaler) {
+func (ec *executionContext) _User_id(ctx context.Context, field graphql.CollectedField, obj *graph_model.User) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_User_id(ctx, field)
 	if err != nil {
 		return graphql.Null
@@ -1439,7 +1439,7 @@ func (ec *executionContext) fieldContext_User_id(_ context.Context, field graphq
 	return fc, nil
 }
 
-func (ec *executionContext) _User_name(ctx context.Context, field graphql.CollectedField, obj *model.User) (ret graphql.Marshaler) {
+func (ec *executionContext) _User_name(ctx context.Context, field graphql.CollectedField, obj *graph_model.User) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_User_name(ctx, field)
 	if err != nil {
 		return graphql.Null
@@ -1483,7 +1483,7 @@ func (ec *executionContext) fieldContext_User_name(_ context.Context, field grap
 	return fc, nil
 }
 
-func (ec *executionContext) _UserSecond_id(ctx context.Context, field graphql.CollectedField, obj *model.UserSecond) (ret graphql.Marshaler) {
+func (ec *executionContext) _UserSecond_id(ctx context.Context, field graphql.CollectedField, obj *graph_model.UserSecond) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_UserSecond_id(ctx, field)
 	if err != nil {
 		return graphql.Null
@@ -1527,7 +1527,7 @@ func (ec *executionContext) fieldContext_UserSecond_id(_ context.Context, field 
 	return fc, nil
 }
 
-func (ec *executionContext) _UserSecond_name(ctx context.Context, field graphql.CollectedField, obj *model.UserSecond) (ret graphql.Marshaler) {
+func (ec *executionContext) _UserSecond_name(ctx context.Context, field graphql.CollectedField, obj *graph_model.UserSecond) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_UserSecond_name(ctx, field)
 	if err != nil {
 		return graphql.Null
@@ -3344,8 +3344,8 @@ func (ec *executionContext) fieldContext___Type_specifiedByURL(_ context.Context
 
 // region    **************************** input.gotpl *****************************
 
-func (ec *executionContext) unmarshalInputNewTodo(ctx context.Context, obj interface{}) (model.NewTodo, error) {
-	var it model.NewTodo
+func (ec *executionContext) unmarshalInputNewTodo(ctx context.Context, obj interface{}) (graph_model.NewTodo, error) {
+	var it graph_model.NewTodo
 	asMap := map[string]interface{}{}
 	for k, v := range obj.(map[string]interface{}) {
 		asMap[k] = v
@@ -3378,8 +3378,8 @@ func (ec *executionContext) unmarshalInputNewTodo(ctx context.Context, obj inter
 	return it, nil
 }
 
-func (ec *executionContext) unmarshalInputNewTodoSecond(ctx context.Context, obj interface{}) (model.NewTodoSecond, error) {
-	var it model.NewTodoSecond
+func (ec *executionContext) unmarshalInputNewTodoSecond(ctx context.Context, obj interface{}) (graph_model.NewTodoSecond, error) {
+	var it graph_model.NewTodoSecond
 	asMap := map[string]interface{}{}
 	for k, v := range obj.(map[string]interface{}) {
 		asMap[k] = v
@@ -3594,7 +3594,7 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 
 var todoImplementors = []string{"Todo"}
 
-func (ec *executionContext) _Todo(ctx context.Context, sel ast.SelectionSet, obj *model.Todo) graphql.Marshaler {
+func (ec *executionContext) _Todo(ctx context.Context, sel ast.SelectionSet, obj *graph_model.Todo) graphql.Marshaler {
 	fields := graphql.CollectFields(ec.OperationContext, sel, todoImplementors)
 
 	out := graphql.NewFieldSet(fields)
@@ -3653,7 +3653,7 @@ func (ec *executionContext) _Todo(ctx context.Context, sel ast.SelectionSet, obj
 
 var todoSecondImplementors = []string{"TodoSecond"}
 
-func (ec *executionContext) _TodoSecond(ctx context.Context, sel ast.SelectionSet, obj *model.TodoSecond) graphql.Marshaler {
+func (ec *executionContext) _TodoSecond(ctx context.Context, sel ast.SelectionSet, obj *graph_model.TodoSecond) graphql.Marshaler {
 	fields := graphql.CollectFields(ec.OperationContext, sel, todoSecondImplementors)
 
 	out := graphql.NewFieldSet(fields)
@@ -3712,7 +3712,7 @@ func (ec *executionContext) _TodoSecond(ctx context.Context, sel ast.SelectionSe
 
 var userImplementors = []string{"User"}
 
-func (ec *executionContext) _User(ctx context.Context, sel ast.SelectionSet, obj *model.User) graphql.Marshaler {
+func (ec *executionContext) _User(ctx context.Context, sel ast.SelectionSet, obj *graph_model.User) graphql.Marshaler {
 	fields := graphql.CollectFields(ec.OperationContext, sel, userImplementors)
 
 	out := graphql.NewFieldSet(fields)
@@ -3756,7 +3756,7 @@ func (ec *executionContext) _User(ctx context.Context, sel ast.SelectionSet, obj
 
 var userSecondImplementors = []string{"UserSecond"}
 
-func (ec *executionContext) _UserSecond(ctx context.Context, sel ast.SelectionSet, obj *model.UserSecond) graphql.Marshaler {
+func (ec *executionContext) _UserSecond(ctx context.Context, sel ast.SelectionSet, obj *graph_model.UserSecond) graphql.Marshaler {
 	fields := graphql.CollectFields(ec.OperationContext, sel, userSecondImplementors)
 
 	out := graphql.NewFieldSet(fields)
@@ -4154,12 +4154,12 @@ func (ec *executionContext) marshalNID2string(ctx context.Context, sel ast.Selec
 	return res
 }
 
-func (ec *executionContext) unmarshalNNewTodo2githubᚗcomᚋprivateᚑprojectᚑppᚋgraphqlᚑapiᚑserviceᚋgraphᚋmodelᚐNewTodo(ctx context.Context, v interface{}) (model.NewTodo, error) {
+func (ec *executionContext) unmarshalNNewTodo2githubᚗcomᚋprivateᚑprojectᚑppᚋgraphqlᚑapiᚑserviceᚋmodelᚋgraph_modelᚐNewTodo(ctx context.Context, v interface{}) (graph_model.NewTodo, error) {
 	res, err := ec.unmarshalInputNewTodo(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 
-func (ec *executionContext) unmarshalNNewTodoSecond2githubᚗcomᚋprivateᚑprojectᚑppᚋgraphqlᚑapiᚑserviceᚋgraphᚋmodelᚐNewTodoSecond(ctx context.Context, v interface{}) (model.NewTodoSecond, error) {
+func (ec *executionContext) unmarshalNNewTodoSecond2githubᚗcomᚋprivateᚑprojectᚑppᚋgraphqlᚑapiᚑserviceᚋmodelᚋgraph_modelᚐNewTodoSecond(ctx context.Context, v interface{}) (graph_model.NewTodoSecond, error) {
 	res, err := ec.unmarshalInputNewTodoSecond(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
 }
@@ -4179,11 +4179,11 @@ func (ec *executionContext) marshalNString2string(ctx context.Context, sel ast.S
 	return res
 }
 
-func (ec *executionContext) marshalNTodo2githubᚗcomᚋprivateᚑprojectᚑppᚋgraphqlᚑapiᚑserviceᚋgraphᚋmodelᚐTodo(ctx context.Context, sel ast.SelectionSet, v model.Todo) graphql.Marshaler {
+func (ec *executionContext) marshalNTodo2githubᚗcomᚋprivateᚑprojectᚑppᚋgraphqlᚑapiᚑserviceᚋmodelᚋgraph_modelᚐTodo(ctx context.Context, sel ast.SelectionSet, v graph_model.Todo) graphql.Marshaler {
 	return ec._Todo(ctx, sel, &v)
 }
 
-func (ec *executionContext) marshalNTodo2ᚕᚖgithubᚗcomᚋprivateᚑprojectᚑppᚋgraphqlᚑapiᚑserviceᚋgraphᚋmodelᚐTodoᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.Todo) graphql.Marshaler {
+func (ec *executionContext) marshalNTodo2ᚕᚖgithubᚗcomᚋprivateᚑprojectᚑppᚋgraphqlᚑapiᚑserviceᚋmodelᚋgraph_modelᚐTodoᚄ(ctx context.Context, sel ast.SelectionSet, v []*graph_model.Todo) graphql.Marshaler {
 	ret := make(graphql.Array, len(v))
 	var wg sync.WaitGroup
 	isLen1 := len(v) == 1
@@ -4207,7 +4207,7 @@ func (ec *executionContext) marshalNTodo2ᚕᚖgithubᚗcomᚋprivateᚑproject�
 			if !isLen1 {
 				defer wg.Done()
 			}
-			ret[i] = ec.marshalNTodo2ᚖgithubᚗcomᚋprivateᚑprojectᚑppᚋgraphqlᚑapiᚑserviceᚋgraphᚋmodelᚐTodo(ctx, sel, v[i])
+			ret[i] = ec.marshalNTodo2ᚖgithubᚗcomᚋprivateᚑprojectᚑppᚋgraphqlᚑapiᚑserviceᚋmodelᚋgraph_modelᚐTodo(ctx, sel, v[i])
 		}
 		if isLen1 {
 			f(i)
@@ -4227,7 +4227,7 @@ func (ec *executionContext) marshalNTodo2ᚕᚖgithubᚗcomᚋprivateᚑproject�
 	return ret
 }
 
-func (ec *executionContext) marshalNTodo2ᚖgithubᚗcomᚋprivateᚑprojectᚑppᚋgraphqlᚑapiᚑserviceᚋgraphᚋmodelᚐTodo(ctx context.Context, sel ast.SelectionSet, v *model.Todo) graphql.Marshaler {
+func (ec *executionContext) marshalNTodo2ᚖgithubᚗcomᚋprivateᚑprojectᚑppᚋgraphqlᚑapiᚑserviceᚋmodelᚋgraph_modelᚐTodo(ctx context.Context, sel ast.SelectionSet, v *graph_model.Todo) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
 			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
@@ -4237,11 +4237,11 @@ func (ec *executionContext) marshalNTodo2ᚖgithubᚗcomᚋprivateᚑprojectᚑp
 	return ec._Todo(ctx, sel, v)
 }
 
-func (ec *executionContext) marshalNTodoSecond2githubᚗcomᚋprivateᚑprojectᚑppᚋgraphqlᚑapiᚑserviceᚋgraphᚋmodelᚐTodoSecond(ctx context.Context, sel ast.SelectionSet, v model.TodoSecond) graphql.Marshaler {
+func (ec *executionContext) marshalNTodoSecond2githubᚗcomᚋprivateᚑprojectᚑppᚋgraphqlᚑapiᚑserviceᚋmodelᚋgraph_modelᚐTodoSecond(ctx context.Context, sel ast.SelectionSet, v graph_model.TodoSecond) graphql.Marshaler {
 	return ec._TodoSecond(ctx, sel, &v)
 }
 
-func (ec *executionContext) marshalNTodoSecond2ᚕᚖgithubᚗcomᚋprivateᚑprojectᚑppᚋgraphqlᚑapiᚑserviceᚋgraphᚋmodelᚐTodoSecondᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.TodoSecond) graphql.Marshaler {
+func (ec *executionContext) marshalNTodoSecond2ᚕᚖgithubᚗcomᚋprivateᚑprojectᚑppᚋgraphqlᚑapiᚑserviceᚋmodelᚋgraph_modelᚐTodoSecondᚄ(ctx context.Context, sel ast.SelectionSet, v []*graph_model.TodoSecond) graphql.Marshaler {
 	ret := make(graphql.Array, len(v))
 	var wg sync.WaitGroup
 	isLen1 := len(v) == 1
@@ -4265,7 +4265,7 @@ func (ec *executionContext) marshalNTodoSecond2ᚕᚖgithubᚗcomᚋprivateᚑpr
 			if !isLen1 {
 				defer wg.Done()
 			}
-			ret[i] = ec.marshalNTodoSecond2ᚖgithubᚗcomᚋprivateᚑprojectᚑppᚋgraphqlᚑapiᚑserviceᚋgraphᚋmodelᚐTodoSecond(ctx, sel, v[i])
+			ret[i] = ec.marshalNTodoSecond2ᚖgithubᚗcomᚋprivateᚑprojectᚑppᚋgraphqlᚑapiᚑserviceᚋmodelᚋgraph_modelᚐTodoSecond(ctx, sel, v[i])
 		}
 		if isLen1 {
 			f(i)
@@ -4285,7 +4285,7 @@ func (ec *executionContext) marshalNTodoSecond2ᚕᚖgithubᚗcomᚋprivateᚑpr
 	return ret
 }
 
-func (ec *executionContext) marshalNTodoSecond2ᚖgithubᚗcomᚋprivateᚑprojectᚑppᚋgraphqlᚑapiᚑserviceᚋgraphᚋmodelᚐTodoSecond(ctx context.Context, sel ast.SelectionSet, v *model.TodoSecond) graphql.Marshaler {
+func (ec *executionContext) marshalNTodoSecond2ᚖgithubᚗcomᚋprivateᚑprojectᚑppᚋgraphqlᚑapiᚑserviceᚋmodelᚋgraph_modelᚐTodoSecond(ctx context.Context, sel ast.SelectionSet, v *graph_model.TodoSecond) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
 			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
@@ -4295,11 +4295,11 @@ func (ec *executionContext) marshalNTodoSecond2ᚖgithubᚗcomᚋprivateᚑproje
 	return ec._TodoSecond(ctx, sel, v)
 }
 
-func (ec *executionContext) marshalNUser2githubᚗcomᚋprivateᚑprojectᚑppᚋgraphqlᚑapiᚑserviceᚋgraphᚋmodelᚐUser(ctx context.Context, sel ast.SelectionSet, v model.User) graphql.Marshaler {
+func (ec *executionContext) marshalNUser2githubᚗcomᚋprivateᚑprojectᚑppᚋgraphqlᚑapiᚑserviceᚋmodelᚋgraph_modelᚐUser(ctx context.Context, sel ast.SelectionSet, v graph_model.User) graphql.Marshaler {
 	return ec._User(ctx, sel, &v)
 }
 
-func (ec *executionContext) marshalNUserSecond2githubᚗcomᚋprivateᚑprojectᚑppᚋgraphqlᚑapiᚑserviceᚋgraphᚋmodelᚐUserSecond(ctx context.Context, sel ast.SelectionSet, v model.UserSecond) graphql.Marshaler {
+func (ec *executionContext) marshalNUserSecond2githubᚗcomᚋprivateᚑprojectᚑppᚋgraphqlᚑapiᚑserviceᚋmodelᚋgraph_modelᚐUserSecond(ctx context.Context, sel ast.SelectionSet, v graph_model.UserSecond) graphql.Marshaler {
 	return ec._UserSecond(ctx, sel, &v)
 }
 
