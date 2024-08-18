@@ -1,0 +1,6 @@
+{
+    "service":{
+        "name":"graphql_api_service",
+        "port":":8092"
+    }
+}

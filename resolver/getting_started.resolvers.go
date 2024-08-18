@@ -9,17 +9,17 @@ import (
 	"fmt"
 
 	"github.com/private-project-pp/graphql-api-service/graph/model"
-	"github.com/private-project-pp/graphql-api-service/interface/server"
+	"github.com/private-project-pp/graphql-api-service/interfaces/graph_server"
 )
 
 // CreateTodo is the resolver for the createTodo field.
-func (r *mutationResolver) CreateTodo(ctx context.Context, input model.NewTodo) (model.Todo, error) {
+func (r *mutationResolver) CreateTodo(ctx context.Context, input model.NewTodo) (*model.Todo, error) {
 	panic(fmt.Errorf("not implemented: CreateTodo - createTodo"))
 }
 
 // Todos is the resolver for the todos field.
-func (r *queryResolver) Todos(ctx context.Context) (out []model.Todo, err error) {
-	out = append(out, model.Todo{
+func (r *queryResolver) Todos(ctx context.Context) (out []*model.Todo, err error) {
+	out = append(out, &model.Todo{
 		ID:     "1",
 		Text:   "Ini teks",
 		Status: "SUCCESS",
@@ -27,11 +27,11 @@ func (r *queryResolver) Todos(ctx context.Context) (out []model.Todo, err error)
 	return out, nil
 }
 
-// Mutation returns server.MutationResolver implementation.
-func (r *Resolver) Mutation() server.MutationResolver { return &mutationResolver{r} }
+// Mutation returns graph_server.MutationResolver implementation.
+func (r *Resolver) Mutation() graph_server.MutationResolver { return &mutationResolver{r} }
 
-// Query returns server.QueryResolver implementation.
-func (r *Resolver) Query() server.QueryResolver { return &queryResolver{r} }
+// Query returns graph_server.QueryResolver implementation.
+func (r *Resolver) Query() graph_server.QueryResolver { return &queryResolver{r} }
 
 type mutationResolver struct{ *Resolver }
 type queryResolver struct{ *Resolver }

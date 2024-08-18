@@ -12,6 +12,6 @@ import (
 )
 
 // TodosThird is the resolver for the todosThird field.
-func (r *queryResolver) TodosThird(ctx context.Context) ([]model.Todo, error) {
+func (r *queryResolver) TodosThird(ctx context.Context) ([]*model.Todo, error) {
 	panic(fmt.Errorf("not implemented: TodosThird - todosThird"))
 }

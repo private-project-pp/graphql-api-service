@@ -12,11 +12,11 @@ import (
 )
 
 // CreateTodoSecond is the resolver for the createTodoSecond field.
-func (r *mutationResolver) CreateTodoSecond(ctx context.Context, input model.NewTodoSecond) (model.TodoSecond, error) {
+func (r *mutationResolver) CreateTodoSecond(ctx context.Context, input model.NewTodoSecond) (*model.TodoSecond, error) {
 	panic(fmt.Errorf("not implemented: CreateTodoSecond - createTodoSecond"))
 }
 
 // TodosSecond is the resolver for the todosSecond field.
-func (r *queryResolver) TodosSecond(ctx context.Context) ([]model.TodoSecond, error) {
+func (r *queryResolver) TodosSecond(ctx context.Context) ([]*model.TodoSecond, error) {
 	panic(fmt.Errorf("not implemented: TodosSecond - todosSecond"))
 }
