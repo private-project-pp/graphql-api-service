@@ -5,41 +5,18 @@ package graph_model
 type Mutation struct {
 }
 
-type NewTodo struct {
-	Text   string `json:"text"`
-	UserID string `json:"userId"`
-}
-
-type NewTodoSecond struct {
-	Text   string `json:"text"`
-	UserID string `json:"userId"`
+type NewUser struct {
+	Fullname    string  `json:"fullname"`
+	Phonenumber string  `json:"phonenumber"`
+	Email       *string `json:"email,omitempty"`
 }
 
 type Query struct {
 }
 
-type Todo struct {
-	ID     string `json:"id"`
-	Text   string `json:"text"`
-	Done   bool   `json:"done"`
-	User   User   `json:"user"`
-	Status string `json:"status"`
-}
-
-type TodoSecond struct {
-	ID     string     `json:"id"`
-	Text   string     `json:"text"`
-	Done   bool       `json:"done"`
-	User   UserSecond `json:"user"`
-	Status string     `json:"status"`
-}
-
 type User struct {
-	ID   string `json:"id"`
-	Name string `json:"name"`
-}
-
-type UserSecond struct {
-	ID   string `json:"id"`
-	Name string `json:"name"`
+	ID      string `json:"id"`
+	Name    string `json:"name"`
+	Status  string `json:"status"`
+	Message string `json:"message"`
 }
