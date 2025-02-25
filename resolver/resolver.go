@@ -5,3 +5,7 @@ package resolver
 // It serves as dependency injection for your app, add any dependencies you require here.
 
 type Resolver struct{}
+
+func SetupResolver() *Resolver {
+	return &Resolver{}
+}

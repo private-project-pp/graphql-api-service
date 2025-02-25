@@ -11,7 +11,7 @@ import (
 	"github.com/private-project-pp/graphql-api-service/model/graph_model"
 )
 
-// TodosThird is the resolver for the todosThird field.
-func (r *queryResolver) TodosThird(ctx context.Context) ([]*graph_model.Todo, error) {
-	panic(fmt.Errorf("not implemented: TodosThird - todosThird"))
+// User is the resolver for the user field.
+func (r *queryResolver) User(ctx context.Context) (*graph_model.User, error) {
+	panic(fmt.Errorf("not implemented: User - user"))
 }
