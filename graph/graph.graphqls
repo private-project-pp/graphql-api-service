@@ -1,7 +1,0 @@
-type Query{
-    graph: Boolean
-}
-type Mutation {
-#   addUser(input: NewUser!): User!
-    graph: Boolean
-}

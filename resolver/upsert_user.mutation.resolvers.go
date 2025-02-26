@@ -11,7 +11,7 @@ import (
 	"github.com/private-project-pp/graphql-api-service/model/graph_model"
 )
 
-// User is the resolver for the user field.
-func (r *queryResolver) User(ctx context.Context) (*graph_model.User, error) {
-	panic(fmt.Errorf("not implemented: User - user"))
+// UpsertUser is the resolver for the upsertUser field.
+func (r *mutationResolver) UpsertUser(ctx context.Context, input graph_model.UpsertUser) (*graph_model.User, error) {
+	panic(fmt.Errorf("not implemented: UpsertUser - upsertUser"))
 }

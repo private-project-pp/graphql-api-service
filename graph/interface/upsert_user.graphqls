@@ -1,0 +1,8 @@
+
+input UpsertUser{
+    user_id: ID!
+    fullname: String!
+    phone_number: String!
+    email: String
+    status: String!
+}
