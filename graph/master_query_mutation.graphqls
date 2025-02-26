@@ -1,0 +1,8 @@
+extend type Query{
+  graph: Boolean
+}
+
+
+type Mutation {
+      graph: Boolean
+}

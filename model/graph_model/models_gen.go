@@ -5,18 +5,32 @@ package graph_model
 type Mutation struct {
 }
 
-type NewUser struct {
-	Fullname    string  `json:"fullname"`
-	Phonenumber string  `json:"phonenumber"`
-	Email       *string `json:"email,omitempty"`
+type Product struct {
+	ID      string `json:"id"`
+	Name    string `json:"name"`
+	Price   int    `json:"price"`
+	Status  string `json:"status"`
+	Stock   int    `json:"stock"`
+	Code    string `json:"code"`
+	Barcode string `json:"barcode"`
 }
 
 type Query struct {
 }
 
+type UpsertUser struct {
+	UserID      string  `json:"user_id"`
+	Fullname    string  `json:"fullname"`
+	PhoneNumber string  `json:"phone_number"`
+	Email       *string `json:"email,omitempty"`
+	Status      string  `json:"status"`
+}
+
 type User struct {
-	ID      string `json:"id"`
-	Name    string `json:"name"`
-	Status  string `json:"status"`
-	Message string `json:"message"`
+	ID          string  `json:"id"`
+	Name        string  `json:"name"`
+	Email       *string `json:"email,omitempty"`
+	PhoneNumber string  `json:"phone_number"`
+	Status      string  `json:"status"`
+	Message     string  `json:"message"`
 }
